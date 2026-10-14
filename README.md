@@ -1,7 +1,7 @@
 # 🎓 EduTrack — Interactive Student Management System
 
 
----
+--
 
 ## 📌 Task 1: Project Planning
 
