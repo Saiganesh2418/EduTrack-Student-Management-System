@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EduTrack | Student Management System</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!--Task 2: Header & Navigation -->
+  <header class="app-header">
+    <div class="container header-content">
+      <div class="brand">
+        <span class="brand-icon">🎓</span>
+        <div>
+          <h1>EduTrack SMS</h1>
+          <p class="subtitle">Student Management System — Internnova Week 5 Project</p>
+        </div>
+      </div>
+      <nav class="header-nav">
+        <a href="#dashboard-section" class="nav-link">Dashboard</a>
+        <a href="#form-section" class="nav-link">Add Student</a>
+        <a href="#directory-section" class="nav-link">Directory</a>
+        <button id="resetDemoBtn" class="btn btn-outline" title="Restore sample student data">
+          Reset Demo Data
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Task 2: Main Content Section -->
+  <main class="container main-content">
+
+    <!-- Task 5: Dynamic Counter Cards (Analytics Dashboard) -->
+    <section id="dashboard-section" class="stats-grid" aria-label="Dashboard Statistics">
+      <div class="stat-card">
+        <span class="stat-label">Total Students</span>
+        <h2 id="statTotalStudents" class="stat-value">0</h2>
+        <span class="stat-meta">Active enrollments</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Class Average</span>
+        <h2 id="statAverageMarks" class="stat-value">0%</h2>
+        <span class="stat-meta">Mean score across all courses</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Pass Rate</span>
+        <h2 id="statPassRate" class="stat-value">0%</h2>
+        <span class="stat-meta" id="statPassCount">0 Passed / 0 Failed</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Top Performer</span>
+        <h2 id="statTopScorer" class="stat-value">—</h2>
+        <span class="stat-meta" id="statTopScoreMeta">Highest academic score</span>
+      </div>
+    </section>
+
+    <div class="workspace-grid">
+      <!-- Task 2 & Task 4: Student Form Section -->
+      <section id="form-section" class="card form-card">
+        <div class="card-header">
+          <h2 id="formTitle">Register New Student</h2>
+          <p>Enter academic details below. All fields are required.</p>
+        </div>
+
+        <!-- Notification / Validation Alert Box -->
+        <div id="alertBox" class="alert hidden" role="alert"></div>
+
+        <form id="studentForm" novalidate>
+          <input type="hidden" id="editStudentId" value="" />
+
+          <div class="form-group">
+            <label for="studentName">Full Name <span>*</span></label>
+            <input
+              type="text"
+              id="studentName"
+              placeholder="e.g., Aarav Sharma"
+              autocomplete="off"
+              required
+            />
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="studentRoll">Roll Number <span>*</span></label>
+              <input
+                type="text"
+                id="studentRoll"
+                placeholder="e.g., CS-101"
+                autocomplete="off"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="studentMarks">Marks (0–100) <span>*</span></label>
+              <input
+                type="number"
+                id="studentMarks"
+                placeholder="e.g., 88"
+                min="0"
+                max="100"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="studentEmail">Email Address <span>*</span></label>
+            <input
+              type="email"
+              id="studentEmail"
+              placeholder="e.g., aarav.sharma@college.edu"
+              autocomplete="off"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="studentCourse">Department / Course <span>*</span></label>
+            <select id="studentCourse" required>
+              <option value="">-- Select Department --</option>
+              <option value="Computer Science">Computer Science</option>
+              <option value="Information Technology">Information Technology</option>
+              <option value="AI & Machine Learning">AI & Machine Learning</option>
+              <option value="Electronics & Telecom">Electronics & Telecom</option>
+              <option value="Data Science">Data Science</option>
+            </select>
+          </div>
+
+          <!-- Live Grade Preview inside Form -->
+          <div class="grade-preview-box">
+            <span>Calculated Grade Preview:</span>
+            <strong id="liveGradePreview">Enter marks (0–100)</strong>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" id="submitBtn" class="btn btn-primary">
+              + Add Student
+            </button>
+            <button type="button" id="cancelEditBtn" class="btn btn-secondary hidden">
+              Cancel Edit
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Task 2, 4 & 5: Student Directory, Search, Filter & Sort Section -->
+      <section id="directory-section" class="card directory-card">
+        <div class="card-header directory-header">
+          <div>
+            <h2>Student Directory</h2>
+            <p id="recordCountText">Showing 0 student records</p>
+          </div>
+          <button id="clearAllBtn" class="btn btn-danger-outline">
+            Clear All
+          </button>
+        </div>
+
+        <!-- Interactive Search, Filter & Sort Bar -->
+        <div class="controls-bar">
+          <div class="search-wrapper">
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="🔍 Search by name, roll no, or email..."
+              aria-label="Search students"
+            />
+          </div>
+
+          <div class="filter-group">
+            <select id="filterCourse" aria-label="Filter by Department">
+              <option value="ALL">All Departments</option>
+              <option value="Computer Science">Computer Science</option>
+              <option value="Information Technology">Information Technology</option>
+              <option value="AI & Machine Learning">AI & Machine Learning</option>
+              <option value="Electronics & Telecom">Electronics & Telecom</option>
+              <option value="Data Science">Data Science</option>
+            </select>
+
+            <select id="filterStatus" aria-label="Filter by Status">
+              <option value="ALL">All Status</option>
+              <option value="Pass">Passed Only</option>
+              <option value="Fail">Failed Only</option>
+            </select>
+
+            <select id="sortBy" aria-label="Sort Records">
+              <option value="roll-asc">Sort: Roll No (Asc)</option>
+              <option value="name-asc">Sort: Name (A–Z)</option>
+              <option value="marks-desc">Sort: Marks (High → Low)</option>
+              <option value="marks-asc">Sort: Marks (Low → High)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Dynamic Student Table -->
+        <div class="table-responsive">
+          <table class="student-table">
+            <thead>
+              <tr>
+                <th>Roll No</th>
+                <th>Student Details</th>
+                <th>Department</th>
+                <th>Marks</th>
+                <th>Grade</th>
+                <th>Status</th>
+                <th class="text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="studentTableBody">
+              <!-- Dynamically populated via script.js -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Empty State UI -->
+        <div id="emptyState" class="empty-state hidden">
+          <p class="empty-icon">📂</p>
+          <h3>No matching student records found</h3>
+          <p>Try clearing your search filters or add a new student using the registration form.</p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="app-footer">
+    <div class="container">
+      <p>Developed by <strong>Saiganesh Durgarao Yalamanchi</strong> | Internnova Week 5 JavaScript Project</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
