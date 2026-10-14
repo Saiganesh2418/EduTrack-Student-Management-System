@@ -1,5 +1,5 @@
 /**
- * ============================================================================
+ * ===========================================================================
  * EduTrack - Student Management System (script.js)
  * Author: Saiganesh Durgarao Yalamanchi
  * Assignment: Internnova Week 5 JavaScript Project
